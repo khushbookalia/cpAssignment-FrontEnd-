@@ -1,0 +1,113 @@
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+      <a class="navbar-brand">managevent</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        <li style="margin-left:800px;"><a href="/login" style="color: white;" (click)="logout()"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;LOGOUT</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="header-top">
+  <div class="container">
+    <h1 class="header-text">Welcome {{userName}}</h1>
+  </div>
+</div><br/>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="textH">See Open Events</h1>
+    <button id="addEve" type="button" class="btn btn-danger" data-toggle="modal" data-target="#addEvent">
+      create new event
+    </button>
+    <p class="lead">
+      This platform allows you to see how event organizers can manage events logistics online through managevent whose functionalities
+      includes event tracking, attendee communication, registration info capture and much more.
+    </p>
+  </div>
+</div>
+<div class="list-group">
+  <div class="eventList">
+    <div *ngFor="let eve of events">
+      <a class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h4 class="mb-1">{{eve.title}}</h4>
+          <small style="float:right">{{eve.dateOfEvent}}</small>
+        </div>
+        <p class="mb-1">{{eve.description}}</p>
+        <small>Location: {{eve.location}}</small>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="addEvent" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <section id="contact" style="overflow-x: hidden; overflow-y: scroll;">
+          <div class="section-content">
+            <h1 class="section-header">Manage <span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s"> Event here with us</span></h1>
+          </div>
+          <div class="contact-section">
+            <div class="container" >
+              <form [formGroup]="eventForm" (ngSubmit)="addNewEvent()">
+                  <div class="formField">
+                    <label for="exampleInputUsername">Event Name</label>
+                    <input type="text" formControlName="eventName" class="form-control" id="" placeholder=" Enter Name" required>
+                    <span *ngIf="!eventForm.get('eventName').valid" class="errorCls"> Enter an Event Name. </span>
+                  </div><br/>
+                  <div class="formField">
+                    <label for="exampleInputEmail">Date of Event</label>
+                    <input type="text" formControlName="date" class="form-control" id="exampleInputEmail" placeholder=" Enter Date of event">
+                     <span *ngIf="!eventForm.get('date').valid" class="errorCls"> Enter Date of event.</span>
+                  </div><br/>
+                  <div class="formField">
+                    <label for="telephone">Organisers</label><br/>
+                    <select multiple="multiple" formControlName="organisers">
+                      <option *ngFor="let org of organisers" value="{{org._id}}" style="color:black">{{org.firstName + " " + org.lastName}}</option>
+                    </select>
+                     <span *ngIf="!eventForm.get('organisers').valid" class="errorCls"> Select one or more organisers. </span>
+                  </div><br/>
+                  <div class="formField">
+                    <label for="telephone">Location</label>
+                    <input type="tel" formControlName="location" class="form-control" id="telephone" placeholder=" Enter Location">
+                    <span *ngIf="!eventForm.get('location').valid" class="errorCls"> Enter Location. </span>                    
+                  </div><br/>
+                  <div class="formField">
+                    <label for="telephone">Ticket Price</label>
+                    <input type="tel" formControlName="ticketPrice" class="form-control" id="telephone" placeholder=" Enter Ticket Price">
+                    <span *ngIf="!eventForm.get('ticketPrice').valid" class="errorCls"> Enter Ticket Price (upto 500). </span>
+                  </div><br/>
+                  <div class="formField">
+                    <label for="description"> Description</label>
+                    <textarea class="form-control" formControlName="description" id="description" placeholder="Enter Description of Event"></textarea>
+                    <span *ngIf="!eventForm.get('description').valid" class="errorCls"> Enter Description of Event. </span>
+                  </div><br/>
+                  <button type="submit" class="btn btn-default submit" style="float:left; margin: 20px 173px;">Add</button>
+              </form>
+            </div>
+          </div>
+        </section>
+        </div>
+        <!--<div class="modal-footer">
+          <button type="submit" (click)="addNewEvent()" class="btn btn-default submit" id="addButton" data-dismiss="modal">Add</button>
+        </div>-->
+      </div>
+
+    </div>
+  </div>
